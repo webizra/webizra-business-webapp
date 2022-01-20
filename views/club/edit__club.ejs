@@ -1,0 +1,27 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+
+
+<!--==================== UPLOAD SECTION ====================-->
+<section class="upload section container"> 
+   <div class="section__header portfolio__header">
+        <h3 class="sub__title" data-title="Welcome to my Blog">Add a Photo</h3>
+   </div>            
+   <div class="upload__container grid">
+       <form class="upload__form" action="/admin/<% if (editing) { %>editPhoto<% } else { %>addPhoto<% } %>" method="POST" enctype="multipart/form-data">
+          <div class="upload__inputs">
+                <div class="upload__content">
+                   <input type="text" name="title" id="title" value="<% if (editing) { %><%= club.title %><% } %>" class="upload__input">
+                   <label for="title" class="upload__label">Title</label>
+                </div>
+                 <div class="upload__content">
+                    <input type="file" name="image" id="image" value="<% if (editing) { %><%= club.image %><% } %>" class="upload__input">
+                    <label for="image" class="upload__label">Image</label>
+                 </div>
+          </div>
+          <button class="btn" type="submit"><% if (editing) { %>Update Blog<% } else { %>Add Blog<% } %></button>
+       </form>
+    </div>
+</section>
+
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,50 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+
+
+<!--==================== UPLOAD SECTION ====================-->
+<section class="upload section container"> 
+    <div class="section__header portfolio__header">
+        <h3 class="sub__title" data-title="New Client Portfolio">Add Portfolio</h3>
+     </div>            
+    <div class="upload__container grid">
+       <form class="upload__form" action="/admin/<% if (editing) { %>editPortfolio<% } else { %>addPortfolio<% } %>" method="POST" enctype="multipart/form-data">
+          <div class="upload__inputs">
+                <div class="upload__content">
+                   <input type="text" name="title" id="title" value="<% if (editing) { %><%= portfolio.title %><% } %>" class="upload__input">
+                   <label for="title" class="upload__label">Portfolio</label>
+                </div>
+                <div class="upload__content">
+                    <input type="text" name="client" id="client" value="<% if (editing) { %><%= portfolio.client %><% } %>" class="upload__input">
+                    <label for="client" class="upload__label">Client</label>
+                 </div>
+                 <div class="upload__content">
+                    <input type="text" name="service" id="service" value="<% if (editing) { %><%= portfolio.service %><% } %>" class="upload__input">
+                    <label for="service" class="upload__label">Service</label>
+                 </div>
+                 <div class="upload__content">
+                  <input type="text" name="year" id="year" value="<% if (editing) { %><%= portfolio.year %><% } %>" class="upload__input">
+                  <label for="year" class="upload__label">Year</label>
+               </div>
+                 <div class="upload__content">
+                    <input type="text" name="link" id="link" value="<% if (editing) { %><%= portfolio.link %><% } %>" class="upload__input">
+                    <label for="link" class="upload__label">Link</label>
+                 </div>
+                 <div class="upload__content">
+                    <input type="file" name="image" id="image" value="<% if (editing) { %><%= portfolio.image %><% } %>" class="upload__input">
+                    <label for="image" class="upload__label">Image</label>
+                 </div>
+                <div class="upload__content upload__area">
+                   <textarea name="description" id="description" class="upload__input"><% if (editing) { %><%= portfolio.description %><% } %></textarea>                              
+                   <label for="description" class="upload__label">Description</label>
+                </div>
+                <% if (editing) { %>
+                    <input type="hidden" value="<%= portfolio.id %>" name="portfolioId">
+                <% } %>
+          </div>
+          <button class="btn" type="submit"><% if (editing) { %>Update Portfolio<% } else { %>Add Portfolio<% } %></button>
+       </form>
+    </div>
+</section>
+<!--==================== END OF UPLOAD SECTION ====================-->
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,42 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+
+
+<!--==================== UPLOAD SECTION ====================-->
+<section class="portfolio__detail section container"> 
+    <div class="detail__container grid">
+        <div class="left">
+            <div class="main__image">
+                <img src="<%= portfolio.image %>" alt="<%= portfolio.title %>">
+            </div>
+        </div>
+        <div class="right">
+            <div class="main__info">
+                <div class="client__content">
+                    <h2 class="portfolio__client">Client:</h2> 
+                    <h3 class="client__desc"><%= portfolio.client %></h3>
+                </div>
+                <div class="client__content">
+                    <h2 class="portfolio__service">Service:</h2>
+                    <h3 class="service__desc"><%= portfolio.service %></h3>
+                </div>
+                <div class="client__content">
+                    <h2 class="portfolio__year">Year:</h2> 
+                    <h3 class="year__desc"><%= portfolio.year %></h3>
+                </div>
+                <div class="client__content">
+                    <h2 class="portfolio__link">Link:</h2> 
+                    <h3 class="link__desc"><a href="<%= portfolio.link %>"><%= portfolio.link %></a></h3>
+                </div>
+                <hr>
+            </div>
+            <div class="portfolio__desc">
+                <h2 class="portfolio__title_"><%= portfolio.title %></h2>
+                <h2 class="portfolio__title__desc">Description:</h2>
+                <p><%= portfolio.description %></p>
+            </div>
+        </div>
+    </div>
+</section>
+<!--==================== END OF UPLOAD SECTION ====================-->
+<%- include('../includes/footer.ejs') %>

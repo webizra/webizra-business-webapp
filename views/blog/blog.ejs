@@ -1,0 +1,42 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+
+
+<!--==================== HERO ====================-->
+<section class="blog" id="blog">
+    <div class="section__header portfolio__header">
+        <h3 class="sub__title" data-title="Welcome to our Blog"></h3>
+    </div>
+    <div class="blog__container container">
+        <div class="blog__data">
+            <h1 class="blog__title">Digital Solutions,<br> A Brand To Step Up Your Brand.</h1>
+            <p class="blog__content">we use modern technologies to bring ideas to life.</p>
+        </div>
+    </div>
+</section>
+<section class="latest__blog container" id="latest__blog blog">
+    <div class="section__header portfolio__header">
+        <h3 class="sub__title" data-title="Latest Blog Posts"></h3>
+    </div>
+    <div class="post__container grid">
+        <% for (let blog of myBlog) { %>
+        <div class="blog__post"><a href="<%=blog.id%>">
+            <div class="post__img">
+                <img src=" /<%=blog.image%>" alt="image not compatible">
+            </div>
+            <div class="post__text">
+                <span><%=blog.year%></span>
+                <a class="post__title" href="<%=blog.id%>"><%=blog.title%></a>
+                <p><%=blog.content%></p>
+                <a href="<%=blog.id%>">Read More</a>
+            </div>
+        </a></div>
+        <% } %>
+    </div>
+</section>
+ 
+ <!--==================== END OF HERO ====================-->
+ 
+ 
+
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,42 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+
+
+<!--==================== UPLOAD SECTION ====================-->
+<section class="upload section container"> 
+   <div class="section__header portfolio__header">
+        <h3 class="sub__title" data-title="Welcome to my Blog">Add a Blog</h3>
+   </div>            
+   <div class="upload__container grid">
+       <form class="upload__form" action="/admin/<% if (editing) { %>editBlog<% } else { %>addBlog<% } %>" method="POST" enctype="multipart/form-data">
+          <div class="upload__inputs">
+                <div class="upload__content">
+                   <input type="text" name="title" id="title" value="<% if (editing) { %><%= blog.title %><% } %>" class="upload__input">
+                   <label for="title" class="upload__label">Post</label>
+                </div>
+                 <div class="upload__content">
+                  <input type="text" name="year" id="year" value="<% if (editing) { %><%= blog.year %><% } %>" class="upload__input">
+                  <label for="year" class="upload__label">Year</label>
+               </div>
+                 <div class="upload__content">
+                    <input type="text" name="link" id="link" value="<% if (editing) { %><%= blog.link %><% } %>" class="upload__input">
+                    <label for="link" class="upload__label">Link</label>
+                 </div>
+                 <div class="upload__content">
+                    <input type="file" name="image" id="image" value="<% if (editing) { %><%= blog.image %><% } %>" class="upload__input">
+                    <label for="image" class="upload__label">Image</label>
+                 </div>
+                <div class="upload__content upload__area">
+                   <textarea name="content" id="content" class="upload__input"><% if (editing) { %><%= blog.content %><% } %></textarea>                              
+                   <label for="description" class="upload__label">Content</label>
+                </div>
+                <% if (editing) { %>
+                    <input type="hidden" value="<%= blog.id %>" name="blogId">
+                <% } %>
+          </div>
+          <button class="btn" type="submit"><% if (editing) { %>Update Blog<% } else { %>Add Blog<% } %></button>
+       </form>
+    </div>
+</section>
+
+<%- include('../includes/footer.ejs') %>

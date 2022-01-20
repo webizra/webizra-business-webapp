@@ -1,0 +1,349 @@
+//authentication
+
+const User = require('../models/user')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+//Errors Handling
+const handleErrors = (err)=> {
+    console.log(err.message)
+    let errors = {email: '', password: ''}
+
+    // incorrect email
+    if (err.message === 'incorrect email') {
+        errors.email = 'That email is not registered';
+    }
+    // incorrect password
+    if (err.message === 'incorrect password') {
+        errors.password = 'That password is incorrect';
+    }
+    //validation errors
+    if (err.message.includes('Validation error')){
+        Object.values(err.errors).forEach((errors)=>{
+            errors = errors.message
+        })
+    }
+    return errors
+}
+
+exports.getRegisterPage = (req, res, next) => {
+    res.render('auth/register__page', {
+        pageTitle: 'Join Our Coding Club',
+        path: '/auth/register'
+    });
+};
+
+exports.postRegister = (req, res, next) => {
+    User.findOne({where:{email:req.body.email}}).then(result =>{
+        if(result){
+            res.status(409).json({
+                message: 'Email already exist!',
+            })
+        }else{
+            bcrypt.genSalt(10, (err, salt)=>{
+                bcrypt.hash(req.body.password, salt, (err, hash)=>{
+                    const user = {
+                        firstname: req.body.firstname,
+                        surname: req.body.surname,
+                        email: req.body.email,
+                        password: hash,
+                    }
+                    User.create(user).then(result =>{
+                        res.status(201).json({
+                            message: 'user created successfully',
+                        })
+                    }).catch(err => {
+                        const errors = handleErrors(err)
+                        res.status(400).json({errors})
+                    })
+                })
+            })
+        }
+    })
+}
+
+exports.getLoginPage = (req, res, next) => {
+    res.render('auth/login__page', {
+        pageTitle: 'Login to Your Account',
+        path: '/auth/login'
+    });
+};
+
+exports.postLogin = (req, res, next) => {
+    User.findOne({where:{email: req.body.email}}).then(user =>{
+        if(user === null){
+            res.status(401).json({
+                message: 'invalid credentials'
+            })
+        }else{
+            bcrypt.compare(req.body.password, user.password, (err, result)=>{
+                if(result){
+                    const token = jwt.sign({
+                        email: user.email,
+                        userId: user.id
+                    }, process.env.JWT_KEY, (err, token)=>{
+                        res.status(200).json({
+                            message: 'login successful',
+                            token: token,
+                        })
+                    })
+                }else{
+                    res.status(401).json({
+                        message: 'invalid credentials'
+                    })
+                }
+            })
+        }
+    }).catch(err =>{
+        console.error(err)
+    })
+}
+
+// nodemailer template
+var smtpTransport = nodemailer.createTransport('SMTP', {
+    host: 'mail.francotanzarella.com',
+    secureConnection: false,
+    port: 587,
+    auth: {
+        user: 'contact@francotanzarella.com',
+        pass: '***'
+    }
+});
+
+app.post('/contact', function(req, res) {
+var htmlTpl = '<h4>Message from' + ' ' + req.body.name + '</h4><p><span>' + req.body.email + '</span</p><p>' + req.body.message + '</p>'; 
+    mailOptions = {
+        from: 'noreply@francotanzarella.com',
+        to: 'contact@francotanzarella.com',
+        subject: 'New message from francotanzarella.com',
+        html: htmlTpl,
+        debug: true
+    }
+    smtpTransport.sendMail(mailOptions, function(error, response) {
+        if(error) {
+            console.log(error)
+        } else {
+            console.log(response.message);
+        }
+        smtpTransport.close();
+    });
+});
+
+// nodemailer contact form template: contac.ejs
+<form id="contact-form" method="POST" name="userForm" action="/contact" ng-submit="submitForm(userForm.$valid)" novalidate>
+        <div class="row">
+            <div class="small-12 column">
+
+                <div class="row" ng-class="{ 'error' : userForm.name.$invalid && !userForm.name.$pristine && submitted }">
+                    <div class="small-12 column">
+                        <label for="name" class="inline">Name</label>
+                    </div>
+                    <div class="small-12 column">
+                        <input type="text" id="name" name="name" placeholder="Your name" ng-model="name" required />
+                        <small class="error" ng-show="userForm.name.$invalid && !userForm.name.$pristine">Please enter your name</small>
+                    </div>
+                </div>
+
+                <div class="row" ng-class="{ 'error' : userForm.email.$invalid && !userForm.email.$pristine && submitted }">
+                    <div class="small-12 column">
+                        <label for="email" class="inline">Email</label>
+                    </div>
+                    <div class="small-12 column">
+                        <input type="email" id="email" name="email" placeholder="Your email" ng-model="email" required />
+                        <small class="error" ng-show="userForm.email.$invalid && !userForm.email.$pristine">I need a valid email please</small>
+                    </div>
+                </div>
+
+                <div class="row" ng-class="{ 'error' : userForm.message.$invalid && !userForm.message.$pristine && submitted }">
+                    <div class="small-12 column">
+                        <label for="message" class="inline">Message</label>
+                    </div>
+                    <div class="small-12 column">
+                        <textarea id="message" name="message" placeholder="Send me a message" ng-model="message" required></textarea>
+                        <small class="error" ng-show="userForm.message.$invalid && !userForm.message.$pristine">What? No message?</small>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="small-12 column">
+                        <button type="submit" class="button" ng-disabled="userForm.$invalid">send</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="form-response-container">
+            <div id="for-response-inner">
+                <h3 id="form-response"></h3>
+            </div>
+        </div>
+    </form>
+
+//middleware
+const jwt = require('jsonwebtoken');
+
+function checkAuth(req, res, next){
+    try{
+        const token = req.headers.authorization.split(" ")[1]; 
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+        req.userData = decodedToken;
+        next();
+    }catch(e){
+        return res.status(401).json({
+            'message': "Invalid or expired token provided!",
+            'error':e
+        });
+    }
+}
+
+module.exports = checkAuth
+
+//server
+const jwt = require('jsonwebtoken');
+
+function checkAuth(req, res, next){
+    try{
+        const token = req.headers.authorization.split(" ")[1]; 
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+        req.userData = decodedToken;
+        next();
+    }catch(e){
+        return res.status(401).json({
+            'message': "Invalid or expired token provided!",
+            'error':e
+        });
+    }
+}
+
+module.exports = checkAuth
+
+//isAdmin
+const Sequelize = require("sequelize");
+
+const connectionOptions = {
+    username: "sa",
+    password: "Test@123",
+    dialect: "mssql",
+    host: "localhost",
+    port: 1433,
+    operatorsAliases: false,
+    benchmark: true,
+
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+    // Dialect specific options. These will be passed to the db driver
+    dialectOptions: {
+        encrypt: false
+    }
+};
+
+const sequelize = new Sequelize(connectionOptions);
+
+const User = sequelize.define(
+    "User",
+    {
+        firstName: Sequelize.STRING,
+        lastName: Sequelize.STRING
+    },
+    { underscored: true }
+);
+
+const Organization = sequelize.define(
+    "Organization",
+    {
+        name: Sequelize.STRING
+    },
+    { underscored: true }
+);
+
+Organization.belongsTo(User, {
+    as: "admin",
+    foreignKey: {
+        allowNull: false
+    }
+});
+
+const createUserAndOrganization = async () => {
+    // step 1
+    await User.create({
+        firstName: "John",
+        lastName: "Doe"
+    });
+
+    // step 2
+    const adminToSet = await User.findOne({ where: { firstName: "John" } });
+    const org = Organization.build({
+        name: "my-awesome-organization"
+    });
+    org.setAdmin(adminToSet);
+};
+
+const authenticated = async () => {
+    try {
+        await sequelize.sync({ force: true });
+        await createUserAndOrganization();
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+sequelize
+    .authenticate()
+    .then(authenticated)
+    .catch(err => {
+        console.log(`[${err.name}]`, `[${err.original.code}]`, `${err.original.message}`);
+    });
+
+//server
+require('dotenv').config()
+const path = require('path')
+const express = require('express')
+const bodyParser = require('body-parser')
+const sequelize = require('./config/database')
+const session = require('express-session');
+const cookieParser = require('cookie-parser')
+const morgan = require('morgan')
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const errorController = require('./controllers/error')
+const homepageRoutes = require('./routes/homepage')
+const adminRoutes = require('./routes/admin')
+const authRoutes = require('./routes/auth')
+const nodemailer = require('nodemailer')
+
+const app = express()
+
+app.set('view engine', 'ejs')
+app.set('views', 'views')
+
+//Middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+app.use(express.json())
+app.use(cookieParser())
+app.use(morgan('dev'))
+app.use(
+    session({
+        key: "express.sid",
+        secret: "tochukwu12",
+        store: new SequelizeStore({
+            db: sequelize
+            }),
+        resave: true,
+        saveUninitialized: false,
+        cookie : { httpOnly: false, secure : false, maxAge : (24 * 60 * 60 * 1000)} // 1day
+    })
+);
+
+app.use(homepageRoutes)
+app.use('/admin', adminRoutes)
+app.use('/auth', authRoutes) 
+app.use(errorController.get404)
+
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, ()=> console.log(`server running on port ${PORT}`))

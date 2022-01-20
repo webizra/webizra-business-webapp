@@ -1,0 +1,212 @@
+<%- include('../includes/head.ejs') %>
+
+<!--==================== MAIN ====================-->
+<main class="hero">
+<%- include('../includes/nav.ejs') %>
+<!--==================== HERO ====================-->
+<section class="home container" id="home">
+   <div class="home__container grid">
+      <div class="digital__clock welcome visible">
+         <div class="datetime">
+            <div class="current__time">
+               <div class="date lightSpeedIn animated"></div>
+               <div class="time lightSpeedIn animated"></div>
+            </div>
+            <div class="motivation__data">
+               <div class="motivation__content">
+                  <div class="day lightSpeedIn animated"></div>
+                  <div class="today__motivation lightSpeedIn animated">Motivation</div>
+               </div>
+               <div class="quote lightSpeedIn animated"></div>
+            </div>
+         </div>
+      </div>
+      <div class="home__data">
+         <h1 class="home__title">Digital Solutions,<br> A Brand To Step Up Your Brand.</h1>
+         <p class="home__description">we use modern technologies to bring ideas to life.</p>
+         <a href="#about" class="button">Learn More</a>
+      </div>
+   </div>
+</section>
+<!--==================== END OF HERO ====================-->
+</main>
+<!--==================== END OF MAIN ====================-->
+
+<!--==================== ABOUT SECTION ====================-->
+<section class="about section container" id="about">
+   <div class="section__header">
+      <h3 class="sub__title" data-title="know more">About Us</h3>
+   </div>
+   <div class="about__container grid">
+       <div class="about__data">
+           <h2 class="section__title about__title">Who We Are</h2>
+           <p class="about__description">
+              At Webizra, We are a Design Agency for the digital age using professional tools 
+              and high-end technologies to offer you a design that feels right.
+              With our advanced technologies and strategic approach to web and app development, We make sure your business is up there above it competitors.
+           </p>
+           <a href="#services" class="button">Our Services</a>
+       </div>
+
+       <div class="about__img">
+           <div class="about__img-overlay">
+               <img src="images/abt-img.jpg" alt="" class="about__img-one">
+           </div>
+
+           <div class="about__img-overlay">
+               <img src="images/about-img2.jpg" alt="" class="about__img-two">
+           </div>
+       </div>
+   </div>
+</section>
+<!--==================== END OF ABOUT SECTION ====================-->
+
+<!--==================== SERVICES ====================-->
+<section class="services section container" id="services">
+   <div class="section__header">
+      <h3 class="sub__title" data-title="What we offer">our services</h3>
+   </div>
+   <div class="services__container grid">
+      <div class="services__data data__1"><a href="">
+         <img class="services__icon" src="images/icons/web-ui-design.png" alt="">
+         <h3 class="services__subtitle">web and UI design</h3>
+         <p class="services__description">We design and build beautiful amazing User Interface that is appealing and 
+            websites that are top notch and of high quality that positively drives your conversion rates.</p>
+      </a></div>
+      <div class="services__data data__2"><a href="">
+         <img class="services__icon" src="images/icons/web-app.png" alt="">
+         <h3 class="services__subtitle">web app <br> development</h3>
+         <p class="services__description">We make, build and develop scalable web applications and experiences that your customers will love  .</p>
+      </a></div>
+      <div class="services__data data__3"><a href="">
+         <img class="services__icon" src="images/icons/shopping-cart.png" alt="">
+         <h3 class="services__subtitle">ecommerce solution</h3>
+         <p class="services__description">At Webizra, we take your digital ecommerce platforms to the next level by using our cutting-edge technology 
+            to develop a scalable ecommerce store for your business.</p>
+      </a></div>
+      <div class="services__data data__4"><a href="">
+         <img class="services__icon" src="images/icons/mobile-app.png" alt="">
+         <h3 class="services__subtitle">mobile app <br> development</h3>
+         <p class="services__description">we transform your brand into a powerful experiencial tool for engaging customers by building scalable mobile
+            applications that are user friendly.</p>
+      </a></div>
+      <div class="services__data data__5"><a href="">
+         <img class="services__icon" src="images/icons/digital-marketing.png" alt="">
+         <h3 class="services__subtitle">digital marketing <br> and branding</h3>
+         <p class="services__description">Our goal is to help your business with our compelling communication, content and marketing strategy
+            to captivate, engage and reach your target audience, we utilize the maximum use of SEO, email marketing and social media strategy e.t.c, to achieve this .</p>
+      </a></div>
+      <!-- <div class="services__data data__6"><a href="">
+         <img class="services__icon" src="images/icons/social-media-marketing.png" alt="">
+         <h3 class="services__subtitle">social media <br> management</h3>
+         <p class="services__description">In our app you can see the delay time of your order.</p>
+      </a></div> -->
+      <div class="services__data data__7"><a href="">
+         <img class="services__icon" src="images/icons/graphic-design.png" alt="">
+         <h3 class="services__subtitle">graphics design and <br> video editing</h3>
+         <p class="services__description">Our services also include seamless, beautiful designs and video editing to better showcase your products and create better awareness.</p>
+      </a></div>
+      <!-- <div class="services__data data__8"><a href="">
+         <img class="services__icon" src="images/icons/content-management.png" alt="">
+         <h3 class="services__subtitle">content management and <br> copywriting</h3>
+         <p class="services__description">Every brand has a story, our goal is to help tell your story and your day to day business with our compelling communication and content strategy
+            to captivate and engage your target audience.</p>
+      </a></div> -->
+      <div class="services__data data__9"><a href="">
+         <img class="services__icon" src="images/icons/coding.png" alt="">
+         <h3 class="services__subtitle">coding classes</h3>
+         <p class="services__description">Join our coding classes that ranges from scratch programming for kids to javascript and python programming.</p>
+      </a></div>  
+   </div>
+</section>
+
+<!--==================== END OF SERVICES SECTION ====================-->
+
+<!--==================== PORTFOLIO SECTION ====================-->
+<section class="portfolio section container" id="portfolio">
+   <div class="section__header">
+      <h3 class="sub__title" data-title="our works">our portfolio</h3>
+   </div>
+   <div class="portfolio__container">
+      <div class="portfolio__slider owl-carousel">
+         <% for (let portfolio of folio) { %>
+         <div class="portfolio__item"><a href="<%= portfolio.id %>">
+            <div class="portfolio__image">
+              <img src="<%=portfolio.image%>" alt="" />
+              <div class="img__overlay">
+                  <div class="plus"></div>
+                  <div class="img__description">
+                     <h3 class="portfolio__title"><%=portfolio.title%></h3>
+                     <h5 class="view__portfolio">View Demo</h5>
+                  </div>
+               </div>
+            </div>
+         </a></div>
+         <% } %>
+      </div>
+   </div>
+</section>
+
+<!--==================== END OF PORTFOLIO SECTION ====================-->
+
+<!--==================== CODING SECTION ====================-->
+<section class="section coding container" id="coding">
+   <div class="section__header">
+      <h3 class="sub__title" data-title="join our">coding classes today</h3>
+   </div>
+      <div class="coding__container grid">
+         <div class="coding__data">
+            <h2 class="coding__title">coding classes <br> for both kids and adults</h2>
+            <p class="coding__description">
+               HTML, CSS, Javascript and React <br> 
+               Python for web development <br>
+               Python for kids <br>
+               Coding & Robotics for kids <br>
+            </p>
+            <a href="/auth/login" class="button">enroll now</a>
+         </div>
+
+         <img src="images/coding-class.jpg" alt="" class="coding__img">
+      </div>
+</section>
+<!--==================== END OF CODING SECTION ====================-->
+
+<!--==================== CONTACT SECTION ====================-->
+<section class="contact section container" id="contact">                
+      <div class="contact__container grid">
+         <div class="contact__box">
+            <div class="section__header">
+               <h3 class="sub__title" data-title="contact us"></h3>
+            </div>
+            <div class="contact__data">
+                  <div class="contact__information">
+                     <h3 class="contact__subtitle">Call us for instant support</h3>
+                     <span class="contact__description"><i class="ri-phone-line contact__icon"></i>+234 8022043703</span>
+                  </div>
+                  <div class="contact__information">
+                     <h3 class="contact__subtitle">Send us an email</h3>
+                     <span class="contact__description"><i class="ri-mail-line contact__icon"></i>webizra@gmail.com</span>
+                  </div>
+            </div>
+         </div>
+         <form action="/sendemail" method="POST" class="contact__form">
+            <div class="contact__inputs">
+                  <div class="contact__content">
+                     <input type="text" name="name" placeholder=" " class="contact__input">
+                     <label for="name" class="contact__label" id="name">Name</label>
+                  </div>
+                  <div class="contact__content">
+                     <input type="text" name="email" placeholder=" " class="contact__input">
+                     <label for="email" class="contact__label" id="email">Email</label>
+                  </div>
+                  <div class="contact__content contact__area">
+                     <textarea type="text" name="message" placeholder=" " class="contact__input"></textarea>                              
+                     <label for="message" class="contact__label" id="message">Message</label>
+                  </div>
+            </div>
+            <button class="btn">Send Message</button>
+         </form>
+      </div>
+</section>
+<!--==================== END OF CONTACT SECTION ====================-->
+<%- include('../includes/footer.ejs') %>

@@ -1,0 +1,37 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+
+
+<!--==================== REGISTER SECTION ====================-->
+<section class="register section container"> 
+    <div class="section__header register__header">
+        <h3 class="sub__title" data-title="Join Us Today">Register</h3>
+     </div>            
+    <div class="register__container grid">
+        <form class="register__form" action="/auth" method="POST">
+            <div class="register__inputs">
+                <div class="register__content">
+                   <input type="text" name="firstname" id="firstname" value="<%=  %>" class="register__input">
+                   <label for="firstname" class="register__label">Firstname</label>
+                </div>
+                <div class="register__content">
+                    <input type="text" name="surname" id="surname" value="" class="register__input">
+                    <label for="surname" class="register__label">Surname</label>
+                </div>
+                <div class="register__content">
+                    <input type="text" name="email" id="email" value="" class="register__input">
+                    <label for="email" class="register__label">Email</label>
+                    <div class="email error"></div>
+                </div>
+                <div class="register__content">
+                    <input type="password" name="password" id="password" value="" class="register__input">
+                    <label for="password" class="register__label">Password</label>
+                    <div class="password error"></div>
+                </div>
+          </div>
+            <button class="btn" type="submit">Sign up</button>
+         </form>
+    </div>
+</section>
+<!--==================== END OF REGISTER SECTION ====================-->
+<%- include('../includes/footer.ejs') %>
